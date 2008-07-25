@@ -1,52 +1,130 @@
-Summary:	STFL implements a curses-based widget set for text terminals.
+Summary:	STFL implements a curses-based widget set for text terminals
+Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.19
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
 # Source0-md5:	2e7859da0ed1f867dfec52f50eedd5d9
+Patch0:		%{name}-libdir.patch
 URL:		http://www.clifford.at/stfl/
 BuildRequires:	ncurses-devel
+BuildRequires:	perl-devel
+BuildRequires:	python-devel
+BuildRequires:	ruby-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-STFL is a library which implements a curses-based widget set for 
-text terminals.
+STFL is a library which implements a curses-based widget set for text
+terminals.
+
+%description -l pl.UTF-8
+STFL jest biblioteką udostępniającą implementacją opartego na ncurses
+zestawu widgetów dla terminali tekstowych.
 
 %package devel
-Summary:	Header files for develop STFL-based application
+Summary:	Header files for STFL library
+Summary(pl.UTF-8):	Pliki nagłówekowe biblioteki STFL
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+
 %description devel
-This package includes the header files and libraries necessary to
-develop applications that use STFL.
+Header files for STFL library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki STFL.
+
+%package static
+Summary:	Static STFL library
+Summary(pl.UTF-8):	Statyczna biblioteka STFL
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static STFL library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka STFL.
+
+%package perl
+Summary:	Perl binding for STFL
+Summary(pl.UTF-8):	Wiązania Perla dla STFLa
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description perl
+Perl binding for STFL.
+
+%description perl -l pl.UTF-8
+Wiązania Perla dla STFLa.
+
+%package python
+Summary:	Python binding for STFL
+Summary(pl.UTF-8):	Wiązania Pythona dla STFLa
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description python
+Python binding for STFL.
+
+%description python -l pl.UTF-8
+Wiązania Pythona dla STFLa.
+
+%package ruby
+Summary:	Ruby binding for STFL
+Summary(pl.UTF-8):	Wiązania Ruby'ego dla STFLa
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description ruby
+Ruby binding for STFL.
+
+%description ruby -l pl.UTF-8
+Wiązania Ruby'ego dla STFLa.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 
 %build
-
-%{__make} prefix=/usr
+%{__make} \
+	CC="%{__cc} -pthread" \
+	CFLAGS="%{rpmcflags} %{rpmldflags} -I."
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/xsessions
 
-%{__make} install prefix=/usr\
+%{__make} install \
+	prefix=%{_prefix} \
+	libdir=%{_lib} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%doc README COPYING
 %defattr(644,root,root,755)
+%doc README COPYING
 # %attr(755,root,root) %{_bindir}/%{name}
-%dir %{_libdir}
-%{_libdir}/lib%{name}*
+#%{_libdir}/lib%{name}*
 
 %files devel
-%dir %{_includedir}
+%defattr(644,root,root,755)
 %{_includedir}/stfl.h
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
+
+%files perl
+%defattr(644,root,root,755)
+%{perl_vendorarch}/*.pm
+
+%files python
+%defattr(644,root,root,755)
+
+%files ruby
+%defattr(644,root,root,755)
+%{ruby_archdir}/stfl.so
