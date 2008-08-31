@@ -90,6 +90,7 @@ Wiązania Ruby'ego dla STFLa.
 for file in $(find -name "Makefile*"); do
 sed -i "s@/lib@/lib64@g" $file
 done
+%endif
 
 %build
 %{__make} \
