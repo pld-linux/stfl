@@ -87,7 +87,7 @@ Wiązania Ruby'ego dla STFLa.
 %setup -q
 %patch0 -p1
 %if "%{_lib}" == "lib64"
-for file in $(find "Makefile*"); do
+for file in $(find -name "Makefile*"); do
 sed -i "s@/lib@/lib64@g" $file
 done
 
