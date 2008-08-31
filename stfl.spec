@@ -86,6 +86,10 @@ Wiązania Ruby'ego dla STFLa.
 %prep
 %setup -q
 %patch0 -p1
+%if "%{_lib}" == "lib64"
+for file in $(find "Makefile*"); do
+sed -i "s@/lib@/lib64@g" $file
+done
 
 %build
 %{__make} \
