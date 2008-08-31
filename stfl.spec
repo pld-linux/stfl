@@ -90,7 +90,7 @@ Wiązania Ruby'ego dla STFLa.
 %build
 %{__make} \
 	CC="%{__cc} -pthread" \
-	CFLAGS="%{rpmcflags} %{rpmldflags} -I."
+	CFLAGS="%{rpmcflags} %{rpmldflags} -I. -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
