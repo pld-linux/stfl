@@ -13,6 +13,9 @@ BuildRequires:	ncurses-devel
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
 BuildRequires:	ruby-devel
+BuildRequires:	swig-perl
+BuildRequires:	swig-python
+BuildRequires:	swig-ruby
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -86,12 +89,12 @@ Wiązania Ruby'ego dla STFLa.
 %prep
 %setup -q
 %patch0 -p1
-%if "%{_lib}" == "lib64"
-for file in $(find -name "Makefile*"); do
-sed -i "s@/lib/@/lib64/@g" $file
-sed -i "s@\(mkdir .*\)/lib@\1/lib64@g" $file
-done
-%endif
+# %if "%{_lib}" == "lib64"
+# for file in $(find -name "Makefile*"); do
+# sed -i "s@/lib/@/lib64/@g" $file
+# sed -i "s@\(mkdir .*\)/lib@\1/lib64@g" $file
+# done
+# %endif
 
 %build
 %{__make} \
@@ -126,10 +129,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files perl
 %defattr(644,root,root,755)
+%dir %{perl_vendorarch}/auto/stfl
 %{perl_vendorarch}/*.pm
+%{perl_archlib}/perllocal.pod
+%{perl_vendorarch}/auto/stfl/*
+%{perl_vendorarch}/example.pl
 
 %files python
 %defattr(644,root,root,755)
+%{py_libdir}/lib-dynload/_stfl.so
+%{py_libdir}/*
 
 %files ruby
 %defattr(644,root,root,755)
