@@ -1,3 +1,7 @@
+# TODO: fix file paths on x86_64
+#   File not found: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/python2.6/lib-dynload/_stfl.so
+#   File not found by glob: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/python2.6/*
+#   File not found: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/ruby/1.8/x86_64-linux/stfl.so
 Summary:	STFL implements a curses-based widget set for text terminals
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
