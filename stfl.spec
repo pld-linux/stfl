@@ -6,7 +6,7 @@ Summary:	STFL implements a curses-based widget set for text terminals
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.19
-Release:	0.2
+Release:	0.3
 License:	GPL v2
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -99,6 +99,9 @@ Wiązania Ruby'ego dla STFLa.
 # sed -i "s@\(mkdir .*\)/lib@\1/lib64@g" $file
 # done
 # %endif
+%{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' python/Makefile.snippet
+%{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' ruby/Makefile.snippet
+
 
 %build
 %{__make} \
