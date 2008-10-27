@@ -1,12 +1,8 @@
-# TODO: fix file paths on x86_64
-#   File not found: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/python2.6/lib-dynload/_stfl.so
-#   File not found by glob: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/python2.6/*
-#   File not found: /tmp/B.a1fd4c/stfl-0.19-root-builder/usr/lib64/ruby/1.8/x86_64-linux/stfl.so
 Summary:	STFL implements a curses-based widget set for text terminals
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.19
-Release:	0.3
+Release:	1
 License:	GPL v2
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -93,12 +89,6 @@ Wiązania Ruby'ego dla STFLa.
 %prep
 %setup -q
 %patch0 -p1
-# %if "%{_lib}" == "lib64"
-# for file in $(find -name "Makefile*"); do
-# sed -i "s@/lib/@/lib64/@g" $file
-# sed -i "s@\(mkdir .*\)/lib@\1/lib64@g" $file
-# done
-# %endif
 %{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' python/Makefile.snippet
 %{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' ruby/Makefile.snippet
 
@@ -123,8 +113,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README COPYING
-# %attr(755,root,root) %{_bindir}/%{name}
-#%{_libdir}/lib%{name}*
 
 %files devel
 %defattr(644,root,root,755)
