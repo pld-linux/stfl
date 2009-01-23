@@ -94,7 +94,7 @@ Wiązania Ruby'ego dla STFLa.
 
 
 %build
-%{__make} -j1 \
+%{__make} \
 	CC="%{__cc} -pthread" \
 	CFLAGS="%{rpmcflags} %{rpmldflags} -I. -fPIC"
 
