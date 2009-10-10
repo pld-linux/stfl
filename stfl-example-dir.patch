@@ -1,0 +1,11 @@
+--- stfl-0.21/example.c~	2007-07-24 13:54:01.000000000 +0200
++++ stfl-0.21/example.c	2009-10-10 09:14:10.074367377 +0200
+@@ -35,7 +35,7 @@
+ 		fprintf(stderr, "WARING: Can't set locale!\n");
+ 
+ 	struct stfl_ipool *ipool = stfl_ipool_create(nl_langinfo(CODESET));
+-	struct stfl_form *f = stfl_create(L"<example.stfl>");
++	struct stfl_form *f = stfl_create(L"</usr/src/examples/stfl-0.21/example.stfl>");
+ 
+ 	stfl_set(f, L"value_a", L"This is a little");
+ 	stfl_set(f, L"value_b", stfl_ipool_towc(ipool, "test for STFL!"));
