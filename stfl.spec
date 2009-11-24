@@ -10,9 +10,11 @@ Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
 # Source0-md5:	888502c3f332a0ee66e490690d79d404
 URL:		http://www.clifford.at/stfl/
 Patch0:		%{name}-example-dir.patch
+Patch1:		%{name}-link.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
+BuildRequires:	python-modules
 BuildRequires:	ruby-devel
 BuildRequires:	swig-perl
 BuildRequires:	swig-python
@@ -114,14 +116,13 @@ Wiązania Ruby'ego dla STFLa.
 %prep
 %setup -q
 %patch0 -p1
-%{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' python/Makefile.snippet
-%{__sed} -i 's,$(prefix)/lib,/%{_libdir},g' ruby/Makefile.snippet
-
+%patch1 -p1
 
 %build
-%{__make} -j1
+%{__make} -j1 \
 	prefix=%{_prefix} \
-	CFLAGS="%{rpmcflags} -I." \
+	CFLAGS="-Wall %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
+	LDFLAGS="%{rpmldflags}" \
 	CC="%{__cc} -pthread"
 
 %install
@@ -170,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT
 %files python
 %defattr(644,root,root,755)
 %{py_libdir}/site-packages/lib-dynload/_stfl.so
-%{py_libdir}/*
+%{py_libdir}/site-packages/stfl.pyc
 
 %files ruby
 %defattr(644,root,root,755)
