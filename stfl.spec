@@ -4,7 +4,7 @@ Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveg
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.21
-Release:	2
+Release:	3
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -149,10 +149,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README
-%attr(755,root,root) %{_libdir}/libstfl.so*
+%attr(755,root,root) %{_libdir}/libstfl.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libstfl.so
 %{_includedir}/stfl.h
 %{_pkgconfigdir}/stfl.pc
 %dir %{_examplesdir}/%{name}-%{version}
@@ -165,19 +166,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files perl
 %defattr(644,root,root,755)
+%doc perl5/example.pl
+%{perl_vendorarch}/stfl.pm
 %dir %{perl_vendorarch}/auto/stfl
-%{perl_vendorarch}/*.pm
-%{perl_archlib}/perllocal.pod
-%{perl_vendorarch}/auto/stfl/*
-%{perl_vendorarch}/example.pl
-%{perl_vendorarch}/auto/stfl/.packlist
+%{perl_vendorarch}/auto/stfl/stfl.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/stfl/stfl.so
 
 %files python
 %defattr(644,root,root,755)
-%{py_libdir}/site-packages/lib-dynload/_stfl.so
+%attr(755,root,root) %{py_libdir}/site-packages/lib-dynload/_stfl.so
 %{py_libdir}/site-packages/stfl.pyc
 
 %files ruby
 %defattr(644,root,root,755)
 %doc ruby/example.rb
-%{ruby_archdir}/stfl.so
+%attr(755,root,root) %{ruby_archdir}/stfl.so
