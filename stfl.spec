@@ -1,3 +1,4 @@
+%include        /usr/lib/rpm/macros.perl
 Summary:	STFL implements a curses-based widget set for text terminals
 Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveges terminálokhoz
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
@@ -15,6 +16,8 @@ BuildRequires:	ncurses-devel
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
 BuildRequires:	python-modules
+BuildRequires:	rpm-perlprov
+BuildRequires:	rpm-pythonprov
 BuildRequires:	ruby-devel
 BuildRequires:	swig-perl
 BuildRequires:	swig-python
@@ -120,7 +123,8 @@ Wiązania Ruby'ego dla STFLa.
 
 %build
 %{__make} -j1 \
-	prefix=%{_prefix} \
+	prefix="" \
+ 	libdir=%{_libdir} \
 	CFLAGS="-Wall %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
 	CC="%{__cc} -pthread"
