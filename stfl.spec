@@ -68,52 +68,55 @@ Statikus STFL könyvtár.
 %description static -l pl.UTF-8
 Statyczna biblioteka STFL.
 
-%package perl
+%package -n perl-%{name}
 Summary:	Perl binding for STFL
 Summary(hu.UTF-8):	Perl kapcsolódás STFL-hez
 Summary(pl.UTF-8):	Wiązania Perla dla STFLa
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	stfl-perl
 
-%description perl
+%description -n perl-%{name}
 Perl binding for STFL.
 
-%description perl -l hu.UTF-8
+%description -n perl-%{name} -l hu.UTF-8
 Perl kapcsolódás STFL-hez.
 
-%description perl -l pl.UTF-8
+%description -n perl-%{name} -l pl.UTF-8
 Wiązania Perla dla STFLa.
 
-%package python
+%package -n python-%{name}
 Summary:	Python binding for STFL
 Summary(hu.UTF-8):	Python kapcsolódás STFL-hez
 Summary(pl.UTF-8):	Wiązania Pythona dla STFLa
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	stfl-python
 
-%description python
+%description -n python-%{name}
 Python binding for STFL.
 
-%description python -l hu.UTF-8
+%description -n python-%{name} -l hu.UTF-8
 Python kapcsolódás STFL-hez.
 
-%description python -l pl.UTF-8
+%description -n python-%{name} -l pl.UTF-8
 Wiązania Pythona dla STFLa.
 
-%package ruby
+%package -n ruby-%{name}
 Summary:	Ruby binding for STFL
 Summary(hu.UTF-8):	Ruby kapcsolódás STFL-hez
 Summary(pl.UTF-8):	Wiązania Ruby'ego dla STFLa
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	stfl-ruby
 
-%description ruby
+%description -n ruby-%{name}
 Ruby binding for STFL.
 
-%description ruby -l hu.UTF-8
+%description -n ruby-%{name} -l hu.UTF-8
 Ruby kapcsolódás STFL-hez.
 
-%description ruby -l pl.UTF-8
+%description -n ruby-%{name} -l pl.UTF-8
 Wiązania Ruby'ego dla STFLa.
 
 %prep
@@ -164,7 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
-%files perl
+%files -n perl-%{name}
 %defattr(644,root,root,755)
 %doc perl5/example.pl
 %{perl_vendorarch}/stfl.pm
@@ -172,12 +175,12 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_vendorarch}/auto/stfl/stfl.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/stfl/stfl.so
 
-%files python
+%files -n python-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_libdir}/site-packages/lib-dynload/_stfl.so
 %{py_libdir}/site-packages/stfl.pyc
 
-%files ruby
+%files -n ruby-%{name}
 %defattr(644,root,root,755)
 %doc ruby/example.rb
 %attr(755,root,root) %{ruby_archdir}/stfl.so
