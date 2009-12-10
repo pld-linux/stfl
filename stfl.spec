@@ -123,11 +123,12 @@ Wiązania Ruby'ego dla STFLa.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 
 %build
 %{__make} -j1 \
 	prefix="" \
- 	libdir=%{_libdir} \
+	libdir=%{_libdir} \
 	CFLAGS="-Wall %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
 	CC="%{__cc} -pthread"
@@ -136,9 +137,9 @@ Wiązania Ruby'ego dla STFLa.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} -j1 install \
- 	prefix=%{_prefix} \
- 	libdir=%{_lib} \
- 	DESTDIR=$RPM_BUILD_ROOT
+	prefix=%{_prefix} \
+	libdir=%{_lib} \
+	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 install example{,.c,.stfl} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
