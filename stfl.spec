@@ -4,7 +4,7 @@ Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveg
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.21
-Release:	8
+Release:	9
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -129,17 +129,22 @@ echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 %{__make} -j1 \
 	prefix="" \
 	libdir=%{_libdir} \
-	CFLAGS="-Wall %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
+	CFLAGS="-Wall %{rpmcppflags} %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
 	CC="%{__cc} -pthread"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{py_libdir}/lib-dynload
+
 %{__make} -j1 install \
 	prefix=%{_prefix} \
 	libdir=%{_lib} \
 	DESTDIR=$RPM_BUILD_ROOT
+
+mv  $RPM_BUILD_ROOT%{py_libdir}/site-packages/lib-dynload/_stfl.so \
+	$RPM_BUILD_ROOT%{py_libdir}/lib-dynload
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 install example{,.c,.stfl} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
@@ -178,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{py_libdir}/site-packages/lib-dynload/_stfl.so
+%attr(755,root,root) %{py_libdir}/lib-dynload/_stfl.so
 %{py_libdir}/site-packages/stfl.pyc
 
 %files -n ruby-%{name}
