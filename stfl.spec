@@ -4,7 +4,7 @@ Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveg
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.21
-Release:	11
+Release:	12
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -141,6 +141,7 @@ install -d $RPM_BUILD_ROOT%{py_libdir}/lib-dynload
 %{__make} -j1 install \
 	prefix=%{_prefix} \
 	libdir=%{_lib} \
+	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 mv  $RPM_BUILD_ROOT%{py_libdir}/site-packages/lib-dynload/_stfl.so \
@@ -189,4 +190,4 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ruby-%{name}
 %defattr(644,root,root,755)
 %doc ruby/example.rb
-%attr(755,root,root) %{ruby_archdir}/stfl.so
+%attr(755,root,root) %{ruby_vendorarchdir}/stfl.so
