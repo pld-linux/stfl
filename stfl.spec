@@ -3,12 +3,12 @@ Summary:	STFL implements a curses-based widget set for text terminals
 Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveges terminálokhoz
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
-Version:	0.21
-Release:	12
+Version:	0.22
+Release:	1
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
-# Source0-md5:	888502c3f332a0ee66e490690d79d404
+# Source0-md5:	df4998f69fed15fabd702a25777f74ab
 URL:		http://www.clifford.at/stfl/
 Patch0:		%{name}-example-dir.patch
 Patch1:		%{name}-link.patch
@@ -150,6 +150,8 @@ mv  $RPM_BUILD_ROOT%{py_libdir}/site-packages/lib-dynload/_stfl.so \
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 install example{,.c,.stfl} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
+ln -sf libstfl.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libstfl.so.0
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -160,6 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %attr(755,root,root) %{_libdir}/libstfl.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libstfl.so.0
 
 %files devel
 %defattr(644,root,root,755)
