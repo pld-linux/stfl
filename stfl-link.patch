@@ -1,12 +1,11 @@
-diff -Nur stfl-0.21.orig/Makefile stfl-0.21/Makefile
---- stfl-0.21.orig/Makefile	2009-06-19 19:30:52.000000000 +0200
-+++ stfl-0.21/Makefile	2009-11-24 01:23:21.000000000 +0100
-@@ -39,7 +39,7 @@
+--- stfl-0.22/Makefile.orig	2014-01-14 19:53:53.670742225 +0100
++++ stfl-0.22/Makefile	2014-01-14 19:54:35.758059766 +0100
+@@ -39,7 +39,7 @@ libstfl.a: public.o base.o parser.o dump
  
  libstfl.so.$(VERSION): public.o base.o parser.o dump.o style.o binding.o iconv.o \
                         $(patsubst %.c,%.o,$(wildcard widgets/*.c))
--	$(CC) -shared -Wl,-soname,$(SONAME) -o $@ $^
-+	$(CC) $(CFLAGS) $(LDFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ $^ $(LDLIBS)
+-	$(CC) -shared -Wl,-soname,$(SONAME) -o $@ $(LDLIBS) $^
++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -Wl,-soname,$(SONAME) -o $@ $^ $(LDLIBS) 
  
  clean:
  	rm -f libstfl.a example core core.* *.o Makefile.deps
