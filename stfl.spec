@@ -4,7 +4,7 @@ Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveg
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.22
-Release:	1
+Release:	2
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
