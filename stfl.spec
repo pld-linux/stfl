@@ -182,7 +182,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc perl5/example.pl
 %{perl_vendorarch}/stfl.pm
 %dir %{perl_vendorarch}/auto/stfl
-%{perl_vendorarch}/auto/stfl/stfl.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/stfl/stfl.so
 
 %files -n python-%{name}
