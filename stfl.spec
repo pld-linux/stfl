@@ -4,7 +4,7 @@ Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveg
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
 Version:	0.22
-Release:	6
+Release:	7
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
@@ -12,6 +12,7 @@ Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
 URL:		http://www.clifford.at/stfl/
 Patch0:		%{name}-example-dir.patch
 Patch1:		%{name}-link.patch
+Patch2:		python-install.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
@@ -123,6 +124,7 @@ Wiązania Ruby'ego dla STFLa.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 
 %build
