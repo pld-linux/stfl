@@ -3,17 +3,17 @@ Summary:	STFL implements a curses-based widget set for text terminals
 Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveges terminálokhoz
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
 Name:		stfl
-Version:	0.22
-Release:	12
+Version:	0.24
+Release:	1
 License:	LGPL v3
 Group:		Libraries
 Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
-# Source0-md5:	df4998f69fed15fabd702a25777f74ab
-URL:		http://www.clifford.at/stfl/
+# Source0-md5:	98c764ccc8f13ed05ea22559d7116b96
 Patch0:		%{name}-example-dir.patch
 Patch1:		%{name}-link.patch
 Patch2:		python-install.patch
-BuildRequires:	ncurses-devel
+URL:		http://www.clifford.at/stfl/
+BuildRequires:	ncurses-devel >= 5
 BuildRequires:	perl-devel
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -72,7 +72,7 @@ Statyczna biblioteka STFL.
 %package -n perl-%{name}
 Summary:	Perl binding for STFL
 Summary(hu.UTF-8):	Perl kapcsolódás STFL-hez
-Summary(pl.UTF-8):	Wiązania Perla dla STFLa
+Summary(pl.UTF-8):	Wiązania Perla dla STFL-a
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	stfl-perl
@@ -84,12 +84,12 @@ Perl binding for STFL.
 Perl kapcsolódás STFL-hez.
 
 %description -n perl-%{name} -l pl.UTF-8
-Wiązania Perla dla STFLa.
+Wiązania Perla dla STFL-a.
 
 %package -n python-%{name}
 Summary:	Python binding for STFL
 Summary(hu.UTF-8):	Python kapcsolódás STFL-hez
-Summary(pl.UTF-8):	Wiązania Pythona dla STFLa
+Summary(pl.UTF-8):	Wiązania Pythona dla STFL-a
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	stfl-python
@@ -101,12 +101,12 @@ Python binding for STFL.
 Python kapcsolódás STFL-hez.
 
 %description -n python-%{name} -l pl.UTF-8
-Wiązania Pythona dla STFLa.
+Wiązania Pythona dla STFL-a.
 
 %package -n ruby-%{name}
 Summary:	Ruby binding for STFL
 Summary(hu.UTF-8):	Ruby kapcsolódás STFL-hez
-Summary(pl.UTF-8):	Wiązania Ruby'ego dla STFLa
+Summary(pl.UTF-8):	Wiązania Ruby'ego dla STFL-a
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	stfl-ruby
@@ -118,7 +118,7 @@ Ruby binding for STFL.
 Ruby kapcsolódás STFL-hez.
 
 %description -n ruby-%{name} -l pl.UTF-8
-Wiązania Ruby'ego dla STFLa.
+Wiązania Ruby'ego dla STFL-a.
 
 %prep
 %setup -q
@@ -137,7 +137,6 @@ echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{py_libdir}/lib-dynload
 
 %{__make} -j1 install \
@@ -146,19 +145,21 @@ install -d $RPM_BUILD_ROOT%{py_libdir}/lib-dynload
 	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv  $RPM_BUILD_ROOT%{py_libdir}/site-packages/lib-dynload/_stfl.so \
-	$RPM_BUILD_ROOT%{py_libdir}/lib-dynload
+/sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
+
+%{__mv} $RPM_BUILD_ROOT%{py_sitedir}/lib-dynload/_stfl.so \
+	$RPM_BUILD_ROOT%{py_sitedir}
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 install example{,.c,.stfl} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
-ln -sf libstfl.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libstfl.so.0
-
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -177,7 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libstfl.a
 
 %files -n perl-%{name}
 %defattr(644,root,root,755)
@@ -188,8 +189,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python-%{name}
 %defattr(644,root,root,755)
-%attr(755,root,root) %{py_libdir}/lib-dynload/_stfl.so
-%{py_libdir}/site-packages/stfl.pyc
+%attr(755,root,root) %{py_sitedir}/_stfl.so
+%{py_sitedir}/stfl.py[co]
 
 %files -n ruby-%{name}
 %defattr(644,root,root,755)
