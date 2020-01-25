@@ -1,4 +1,3 @@
-%include        /usr/lib/rpm/macros.perl
 Summary:	STFL implements a curses-based widget set for text terminals
 Summary(hu.UTF-8):	Az STFL egy curses-alapú widget-készletet biztosít szöveges terminálokhoz
 Summary(pl.UTF-8):	Implementacja opartego na ncurses zestawu widgetów dla terminali tekstowych
