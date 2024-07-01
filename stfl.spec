@@ -11,6 +11,7 @@ Source0:	http://www.clifford.at/stfl/%{name}-%{version}.tar.gz
 Patch0:		%{name}-example-dir.patch
 Patch1:		%{name}-link.patch
 Patch2:		python-install.patch
+Patch3:		python-bin.patch
 URL:		http://www.clifford.at/stfl/
 BuildRequires:	ncurses-devel >= 5
 BuildRequires:	perl-devel
@@ -124,6 +125,7 @@ Wiązania Ruby'ego dla STFL-a.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 
 %build
@@ -132,7 +134,8 @@ echo 'LDLIBS=-ltinfow' >> Makefile.cfg
 	libdir=%{_libdir} \
 	CFLAGS="-Wall %{rpmcppflags} %{rpmcflags} -I. -D_GNU_SOURCE -fPIC" \
 	LDFLAGS="%{rpmldflags}" \
-	CC="%{__cc} -pthread"
+	CC="%{__cc} -pthread" \
+	PYTHON="%{__python}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -142,7 +145,8 @@ install -d $RPM_BUILD_ROOT%{py_libdir}/lib-dynload
 	prefix=%{_prefix} \
 	libdir=%{_lib} \
 	RUBYARCHDIR=$RPM_BUILD_ROOT%{ruby_vendorarchdir} \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	PYTHON="%{__python}"
 
 /sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
 

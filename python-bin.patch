@@ -1,0 +1,43 @@
+diff -ur stfl-0.24.orig/Makefile.cfg stfl-0.24/Makefile.cfg
+--- stfl-0.24.orig/Makefile.cfg	2024-07-01 20:29:07.196345570 +0200
++++ stfl-0.24/Makefile.cfg	2024-07-01 20:30:51.739972927 +0200
+@@ -21,6 +21,7 @@
+ export libdir ?= lib
+ export prefix ?= /usr/local
+ export DESTDIR ?= /
++PYTHON = python
+ 
+ ifneq ($(shell spl-config --cflags 2>/dev/null),)
+ FOUND_SPL = 1
+@@ -40,7 +41,7 @@
+ FOUND_PERL5 = 0
+ endif
+ 
+-ifneq ($(shell python -c 'print 1' 2>/dev/null),)
++ifneq ($(shell $(PYTHON) -c 'print 1' 2>/dev/null),)
+ FOUND_PYTHON = 1
+ else
+ FOUND_PYTHON = 0
+diff -ur stfl-0.24.orig/python/Makefile.snippet stfl-0.24/python/Makefile.snippet
+--- stfl-0.24.orig/python/Makefile.snippet	2024-07-01 20:29:07.193012334 +0200
++++ stfl-0.24/python/Makefile.snippet	2024-07-01 20:31:38.551946874 +0200
+@@ -18,8 +18,8 @@
+ #  MA 02110-1301 USA
+ #
+ 
+-PYTHON_VERSION = $(shell python -V 2>&1 | cut -f2 -d' ' | cut -f1-2 -d'.')
+-PYTHON_SITEARCH = $(shell python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(plat_specific=True, prefix='/usr')")
++PYTHON_VERSION = $(shell $(PYTHON) -V 2>&1 | cut -f2 -d' ' | cut -f1-2 -d'.')
++PYTHON_SITEARCH = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; print get_python_lib(plat_specific=True, prefix='/usr')")
+ 
+ all: python/_stfl.so python/stfl.py python/stfl.pyc
+ 
+@@ -29,7 +29,7 @@
+ 	cd python && swig -python -threads stfl.i
+ 	gcc -shared -pthread -fPIC python/stfl_wrap.c -I/usr/include/python$(PYTHON_VERSION) \
+ 		-I. libstfl.a -lncursesw -o python/_stfl.so
+-	cd python && python -c 'import stfl'
++	cd python && $(PYTHON) -c 'import stfl'
+ 
+ install_python: python/_stfl.so python/stfl.py python/stfl.pyc
+ 	mkdir -p $(DESTDIR)$(PYTHON_SITEARCH)/
